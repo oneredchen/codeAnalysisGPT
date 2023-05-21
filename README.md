@@ -1,79 +1,61 @@
 # Code Analysis and Explanation
 
-This repository contains a Python script that uses the LangChain library to deobfuscate and explain code.
+This Python script automates two tasks: code analysis and document generation. It uses the OpenAI GPT-3.5 Turbo model to deobfuscate and simplify code, as well as to generate a detailed README.md file that explains the functionality of the given code.
 
-# Overview
+## Dependencies
 
-The script performs two main operations:
+This script relies on the following Python libraries:
 
-1. `Code Analysis`: It takes a code file as input, deobfuscates it, and writes the analyzed code to an output file.
+- os
+- dotenv
+- openai
 
-2. `Code Explanation`: It generates an explanation of the analyzed code and writes it to a README.md file.
+Before running this script, ensure that these libraries are installed in your environment. You can install these libraries with pip:
 
-The LangChain library's OpenAI model is used to perform both operations. The model's temperature parameter is set to 0.1 to ensure the output is deterministic and reliable.
+```
+pip install python-dotenv openai
+```
 
-# Getting Started
+## API Key
 
-## Prerequisites
+The script uses the OpenAI API, which requires an API key. This key should be stored in an environment variable named "OPENAI_API_KEY". We use python-dotenv to load this variable. Create a .env file in the same directory as the script, with the following content:
 
-To run the script, you need the following:
+```
+OPENAI_API_KEY=your_openai_api_key
+```
 
-- Python 3.6 or higher.
-- OpenAI API key.
-- LangChain Python library.
-- python-dotenv library.
+Replace "your_openai_api_key" with your actual OpenAI API key.
 
-# Installation
+## File Input
 
-1. Clone the repository:
+The script asks for a filename to analyze. The file should be located in the `code_for_analysis` directory, which should be in the same directory as the script.
 
-   ```
-   git clone https://github.com/oneredchen/codeAnalysisGPT.git
-   ```
+## File Output
 
-2. Navigate to the project directory:
+The output of the script includes an analyzed version of the code, and a README.md file which explains the code. These files are stored in the code_analysis_output directory.
 
-   ```
-   cd codeAnalysisGPT
-   ```
+## Execution
 
-3. Create a Python virtual environment and activate it:
+To execute the script, run the following command in your terminal:
 
-   ```
-   python3 -m venv env
-   source env/bin/activate
-   ```
+```
+python script_name.py
+```
 
-4. Install the necessary Python libraries from the `requirements.txt` file:
+Replace "script_name.py" with the actual name of this script.
 
-   ```
-   pip install -r requirements.txt
-   ```
+## Code Analysis
 
-5. Create a .env file in your project root and add your OpenAI API key:
-   ```
-   OPENAI_API_KEY=your-api-key-here
-   ```
+The script analyzes code using OpenAI's GPT-3.5 Turbo model. It constructs a prompt asking the model to deobfuscate and improve the code snippet, and returns the model's response as the analyzed code.
 
-# Usage
+## Document Generation
 
-1. Place the code file you want to analyze in the code_for_analysis directory.
+The script generates a README.md file that explains the analyzed code. It constructs a prompt asking the model to explain the code, and returns the model's response as the explanation.
 
-2. Run the script and provide the filename when prompted:
+## Exception Handling
 
-   ```
-   python main.py
-   ```
+If any error occurs during the execution of the script, it is caught and printed to the console, providing a brief description of the problem.
 
-The script will write the analyzed code to a new file in the `code_analysis_output` directory and the explanation to a `README.md` file.
+Please note: This script is dependent on the OpenAI API and the availability of the GPT-3.5 Turbo model. Any changes or disruptions to these services may affect the functionality of the script.
 
-# Output
-
-The script outputs two files:
-
-1. `analyzed_code.<file_extension>`: Contains the deobfuscated code.
-2. `README.md`: Contains an explanation of the analyzed code.
-
-# Error Handling
-
-The script handles any exceptions that occur during file handling or code analysis, and outputs an error message if an exception is caught.
+This script provides a convenient way to analyze and understand unfamiliar code. By automating the generation of explanatory documentation, it helps developers save time and effort, making it easier to work with complex code bases.
