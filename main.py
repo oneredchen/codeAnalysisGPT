@@ -1,7 +1,5 @@
 import os
-from langchain.llms import OpenAI
-from langchain.prompts import PromptTemplate
-from langchain.chains import LLMChain
+import openai
 from dotenv import load_dotenv
 
 # Constants
@@ -12,31 +10,35 @@ OUTPUT_PATH = os.path.join(os.getcwd(), "code_analysis_output")
 load_dotenv()
 
 # Retrieve the OpenAI API key from the environment variable
-openai_api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 def analyze_code(code, file_extension):
     print("Analyzing code ......")
-    llm = OpenAI(temperature=0.1)
-    prompt = PromptTemplate(
-        input_variables=["file_extension", "code"],
-        template="You are a bot that specializes in analyzing code and deobfuscating code to make it easier for others to understand what the code is doing. The following code is extracted from a {file_extension} file. Please help me deobfuscate the following code snippet:\n{code}\n Return only the deobfuscated or analyzed code will do, with your answer properly structured.",
+    prompt = f"The following code is extracted from a {file_extension} file. Please help me deobfuscate and improve the following code snippet:\n{code}\n. Your answer should contain only the deobfuscated or improved code that can executed. No need to provide any explanation on what has been done. Just provide the code which can be immediately be written to an output file for use."
+    response = openai.ChatCompletion.create(
+    model="gpt-3.5-turbo",
+    messages=[
+            {"role": "system", "content": "You are a bot that specializes in analyzing code, deobfuscating code and simplifying it to make it easier for others to understand what the code is doing. You will only return the deobfuscated or simplified code"},
+            {"role": "user", "content": prompt}
+        ]
     )
-    chain = LLMChain(llm=llm, prompt=prompt)
-    analyzed_code = chain.run({"file_extension": file_extension, "code": code})
+    analyzed_code = response['choices'][0]['message']['content']
 
     return analyzed_code
 
 
 def explain_code(code, file_extension):
     print("Generating explanation ......")
-    llm = OpenAI(temperature=0.1)
-    prompt = PromptTemplate(
-        input_variables=["file_extension", "code"],
-        template="You are a bot that specializes in creating README.md document based on code provided to you in order to create a documentation that allows for readers to understand how the code works and how to use it if necessary. Please generate a README.md file based on the {file_extension} code:\n{code}\n Your answer should be properly structured.",
-    )
-    chain = LLMChain(llm=llm, prompt=prompt)
-    explanation = chain.run({"file_extension": file_extension, "code": code})
+    prompt = f"Please generate a README.md file based on the {file_extension} code:\n{code}\n Your answer should be properly structured."
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+                {"role": "system", "content": "You are a bot that specializes in creating README.md document based on code provided to you in order to create a documentation that allows for readers to understand how the code works and how to use it if necessary."},
+                {"role": "user", "content": prompt}
+            ]
+        )
+    explanation = response['choices'][0]['message']['content']
 
     return explanation
 
