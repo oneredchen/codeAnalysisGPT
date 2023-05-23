@@ -15,7 +15,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def analyze_code(code, file_extension):
     print("Analyzing code ......")
-    prompt = f"The following code is extracted from a {file_extension} file. Please help me deobfuscate and improve the following code snippet:\n{code}\n. Your answer should contain only the deobfuscated or improved code that can executed. No need to provide any explanation on what has been done. Just provide the code which can be immediately be written to an output file for use."
+    prompt = f"The following code is extracted from a {file_extension} file. Please help me deobfuscate and improve the following code snippet:\n{code}\n. Your answer should contain only the deobfuscated or improved code that can executed. No need to provide any explanation on what has been done. Just provide the code which can immediately be written to an output file for use."
     response = openai.ChatCompletion.create(
     model="gpt-3.5-turbo",
     messages=[
