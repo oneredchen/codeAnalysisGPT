@@ -17,13 +17,16 @@ def analyze_code(code, file_extension):
     print("Analyzing code ......")
     prompt = f"The following code is extracted from a {file_extension} file. Please help me deobfuscate and improve the following code snippet:\n{code}\n. Your answer should contain only the deobfuscated or improved code that can executed. No need to provide any explanation on what has been done. Just provide the code which can immediately be written to an output file for use."
     response = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
-    messages=[
-            {"role": "system", "content": "You are a bot that specializes in analyzing code, deobfuscating code and simplifying it to make it easier for others to understand what the code is doing. You will only return the deobfuscated or simplified code"},
-            {"role": "user", "content": prompt}
-        ]
+        model="gpt-3.5-turbo-16k",
+        messages=[
+            {
+                "role": "system",
+                "content": "You are a bot that specializes in analyzing code, deobfuscating code and simplifying it to make it easier for others to understand what the code is doing. You will only return the deobfuscated or simplified code",
+            },
+            {"role": "user", "content": prompt},
+        ],
     )
-    analyzed_code = response['choices'][0]['message']['content']
+    analyzed_code = response["choices"][0]["message"]["content"]
 
     return analyzed_code
 
@@ -32,13 +35,16 @@ def explain_code(code, file_extension):
     print("Generating explanation ......")
     prompt = f"Please generate a README.md file based on the {file_extension} code:\n{code}\n Your answer should be properly structured."
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model="gpt-3.5-turbo-16k",
         messages=[
-                {"role": "system", "content": "You are a bot that specializes in creating README.md document based on code provided to you in order to create a documentation that allows for readers to understand how the code works and how to use it if necessary."},
-                {"role": "user", "content": prompt}
-            ]
-        )
-    explanation = response['choices'][0]['message']['content']
+            {
+                "role": "system",
+                "content": "You are a bot that specializes in creating README.md document based on code provided to you in order to create a documentation that allows for readers to understand how the code works and how to use it if necessary.",
+            },
+            {"role": "user", "content": prompt},
+        ],
+    )
+    explanation = response["choices"][0]["message"]["content"]
 
     return explanation
 
