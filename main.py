@@ -21,7 +21,7 @@ def analyze_code(code, file_extension):
         messages=[
             {
                 "role": "system",
-                "content": "You are a bot that specializes in analyzing code, deobfuscating code and simplifying it to make it easier for others to understand what the code is doing. You will only return the deobfuscated or simplified code",
+                "content": "You are a bot that specializes in analyzing code, deobfuscating code and simplifying it to make it easier for others to understand what the code is doing. You will only return the deobfuscated or simplified code.",
             },
             {"role": "user", "content": prompt},
         ],

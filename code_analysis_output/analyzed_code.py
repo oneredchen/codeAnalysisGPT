@@ -8,10 +8,7 @@ from langchain.chat_models import ChatOpenAI
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.document_loaders import PyPDFDirectoryLoader
 from langchain.vectorstores import Chroma
-from langchain.agents.agent_toolkits import (
-    VectorStoreToolkit,
-    VectorStoreInfo,
-)
+from langchain.agents.agent_toolkits import VectorStoreToolkit, VectorStoreInfo
 from langchain.agents import initialize_agent, AgentType
 from langchain.memory import ConversationBufferMemory
 
@@ -24,7 +21,6 @@ logging.basicConfig(level=logging.INFO)
 
 
 def setup_paths():
-    """Sets up necessary paths and returns them. Creates the db directory if it doesn't exist."""
     cwd = os.getcwd()
     data_path = os.path.join(cwd, "raw_data")
     db_dir = os.path.join(cwd, "db")
@@ -35,7 +31,6 @@ def setup_paths():
 
 
 def setup_vectorstore_agent(data_path, db_path):
-    """Sets up the Langchain LLM to be used and returns a vectorstore agent."""
     llm = ChatOpenAI(
         temperature=0.9,
         verbose=True,
